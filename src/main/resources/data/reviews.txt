@@ -1,0 +1,5 @@
+1|Terrible service!
+3|The service is nice.
+3|Perfect spot for lunch!
+4|I love this place.
+5|Must try!
