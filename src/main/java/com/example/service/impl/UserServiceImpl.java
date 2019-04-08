@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,11 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        List<User> users = new LinkedList<>();
+        for (User user : userRepository.findAll()) {
+            users.add(user);
+        }
+        return users;
     }
 
     @Transactional

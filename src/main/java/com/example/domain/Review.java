@@ -22,7 +22,7 @@ public class Review implements Serializable {
     @Column(name = "review_text", nullable = false)
     private String reviewText;
 
-    @Formula("SELECT count(*) FROM user_vote v WHERE v.review_id = review_id")
+    @Formula("(SELECT count(*) FROM user_vote v WHERE v.review_id = review_id)")
     private Long voteCount;
 
     protected Review() {}
