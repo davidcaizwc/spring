@@ -24,6 +24,11 @@ public class Book implements Serializable {
 
     protected Book() {}
 
+    public Book(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
     public Book(String title, Author author) {
         this.title = title;
         this.author = author;
