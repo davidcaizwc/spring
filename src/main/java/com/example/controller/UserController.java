@@ -1,4 +1,4 @@
-package com.example.web;
+package com.example.controller;
 
 import com.example.domain.User;
 import com.example.service.IUserService;

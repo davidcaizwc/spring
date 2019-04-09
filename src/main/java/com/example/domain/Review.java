@@ -4,6 +4,8 @@ import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "review")
@@ -24,6 +26,9 @@ public class Review implements Serializable {
 
     @Formula("(SELECT count(*) FROM user_vote v WHERE v.review_id = review_id)")
     private Long voteCount;
+
+    @ManyToMany(mappedBy = "reviews")
+    private List<User> users;
 
     protected Review() {}
 
@@ -46,5 +51,13 @@ public class Review implements Serializable {
 
     public Long getVoteCount() {
         return voteCount;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public List<User> getUsers() {
+        return users;
     }
 }

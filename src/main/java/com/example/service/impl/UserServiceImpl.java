@@ -2,8 +2,8 @@ package com.example.service.impl;
 
 import com.example.domain.Review;
 import com.example.domain.User;
-import com.example.repository.ReviewRepository;
-import com.example.repository.UserRepository;
+import com.example.dao.ReviewDao;
+import com.example.dao.UserDao;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,26 +17,26 @@ import java.util.Optional;
 public class UserServiceImpl implements IUserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDao userDao;
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewDao reviewDao;
 
     @Transactional
     @Override
     public void addUser(User user) {
-        userRepository.save(user);
+        userDao.save(user);
     }
 
     @Override
     public User getUserById(long userId) {
-        return userRepository.findById(userId).orElse(null);
+        return userDao.findById(userId).orElse(null);
     }
 
     @Override
     public List<User> getAllUsers() {
         List<User> users = new LinkedList<>();
-        for (User user : userRepository.findAll()) {
+        for (User user : userDao.findAll()) {
             users.add(user);
         }
         return users;
@@ -45,27 +45,27 @@ public class UserServiceImpl implements IUserService {
     @Transactional
     @Override
     public void vote(long userId, long reviewId) {
-        Optional<User> user = userRepository.findById(userId);
-        Optional<Review> review = reviewRepository.findById(reviewId);
+        Optional<User> user = userDao.findById(userId);
+        Optional<Review> review = reviewDao.findById(reviewId);
         if (user.isPresent() && review.isPresent()) {
-            user.get().getFavoriteReviews().add(review.get());
-            userRepository.save(user.get());
+            user.get().getReviews().add(review.get());
+            userDao.save(user.get());
         }
     }
 
     @Transactional
     @Override
     public void deleteVote(long userId, long reviewId) {
-        Optional<User> user = userRepository.findById(userId);
-        Optional<Review> review = reviewRepository.findById(reviewId);
+        Optional<User> user = userDao.findById(userId);
+        Optional<Review> review = reviewDao.findById(reviewId);
         if (user.isPresent() && review.isPresent()) {
-            user.get().getFavoriteReviews().remove(review.get());
-            userRepository.save(user.get());
+            user.get().getReviews().remove(review.get());
+            userDao.save(user.get());
         }
     }
 
     @Override
     public boolean haveUserVoted(long userId, long reviewId) {
-        return reviewRepository.hadUserFavoritedReview(userId, reviewId);
+        return reviewDao.hadUserFavoritedReview(userId, reviewId);
     }
 }

@@ -1,8 +1,11 @@
 package com.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -18,11 +21,12 @@ public class User implements Serializable {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "user_vote",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
-    private Set<Review> favoriteReviews;
+    private List<Review> reviews;
 
     public User() {}
 
@@ -38,7 +42,7 @@ public class User implements Serializable {
         return userName;
     }
 
-    public Set<Review> getFavoriteReviews() {
-        return favoriteReviews;
+    public List<Review> getReviews() {
+        return reviews;
     }
 }
