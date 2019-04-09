@@ -1,5 +1,9 @@
 package com.example;
 
+import com.example.dao.AuthorDao;
+import com.example.dao.BookDao;
+import com.example.domain.Author;
+import com.example.domain.Book;
 import com.example.domain.Review;
 import com.example.domain.User;
 import com.example.service.IReviewService;
@@ -30,11 +34,25 @@ public class DataLoader implements InitializingBean {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private AuthorDao authorDao;
+
+    @Autowired
+    private BookDao bookDao;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         loadReviews(source);
         userService.addUser(new User("David"));
         userService.addUser(new User("Steve"));
+
+        Author author = new Author("Steve");
+        authorDao.save(author);
+
+        Book book1 = new Book("Data Structure", author);
+        Book book2 = new Book("Machine Learning", author);
+        bookDao.save(book1);
+        bookDao.save(book2);
     }
 
     private void loadReviews(Resource source) throws IOException {
